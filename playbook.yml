@@ -7,11 +7,14 @@
     nginx_package_name: nginx
 
   roles:
-    - install_nginx
+    - role: install_nginx
+      tags: nginx
+
 
 
 - name: Плейбук c ролью приветствия
   hosts: localhost
   gather_facts: false
   roles:
-    - say_hello
+    - role: say_hello
+      tags: hello
