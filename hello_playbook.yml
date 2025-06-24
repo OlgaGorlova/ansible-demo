@@ -1,0 +1,5 @@
+- name: Плейбук c ролью приветствия
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - say_hello

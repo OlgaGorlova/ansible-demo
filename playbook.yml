@@ -1,0 +1,17 @@
+# ~/ansible-project/playbook.yml
+- name: Установка nginx через роль
+  hosts: all
+  become: true
+
+  vars:
+    nginx_package_name: nginx
+
+  roles:
+    - install_nginx
+
+
+- name: Плейбук c ролью приветствия
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - say_hello

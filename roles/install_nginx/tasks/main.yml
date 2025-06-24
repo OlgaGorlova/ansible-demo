@@ -1,0 +1,5 @@
+# ~/ansible-project/roles/install_nginx/tasks/main.yml
+- name: Установить nginx
+  apt:
+    name: "{{ nginx_package_name }}"
+    state: present

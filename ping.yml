@@ -1,0 +1,9 @@
+---
+- name: Пингуем удалённые хосты
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Пингуем машину
+      ansible.builtin.ping:
+
