@@ -3,3 +3,6 @@
   debug:
     msg: "{{ greeting }}"
 
+- name: Печатаем второе сообщение
+  debug:
+    msg: "{{ message }}"
