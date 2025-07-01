@@ -42,5 +42,5 @@
 
 - name: Display dp path
   debug:
-    var: "{{ dp[0].path }}"
+    msg: "{{ dp[0].path }}"
   become: yes
