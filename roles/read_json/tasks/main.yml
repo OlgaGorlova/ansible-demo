@@ -32,7 +32,7 @@
 
 - name: Extract one dp
   set_fact:
-    dp: "{{ data | community.general.json_query('resources[*].dp3') | flatten }}"
+    dp: "{{ data.resources | selectattr('dp3', 'defined') | map(attribute='dp3') | list }}"
   become: yes
 
 - name: Display dp
@@ -42,5 +42,5 @@
 
 - name: Display dp path
   debug:
-    var: "{{ dp | community.general.json_query('[*].path') }}"
+    var: "{{ dp[0].path }}"
   become: yes
