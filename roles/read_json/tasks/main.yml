@@ -7,7 +7,7 @@
 
 - name: Create dir /tmp/dp
   file:
-    path: "/tmp/dp"
+    path: "/tmp/dp/"
     state: absent
     recurse: "yes"
     mode: "0775"
