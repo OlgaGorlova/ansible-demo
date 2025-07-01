@@ -32,7 +32,7 @@
 
 - name: Extract one dp
   set_fact:
-    dp: "{{ data | community.general.json_query('resources[*].dp3') flatten }}"
+    dp: "{{ data | community.general.json_query('resources[*].dp3') | flatten }}"
   become: yes
 
 - name: Display dp
