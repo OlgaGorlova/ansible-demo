@@ -18,3 +18,11 @@
   roles:
     - role: say_hello
       tags: hello
+
+
+- name: Read json
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: read_json
+      tags: json

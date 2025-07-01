@@ -1,0 +1,28 @@
+{
+    "resources" : [
+        {
+            "dp1": {
+                "path": "path",
+                "account": "acc"
+            }
+        },
+        {
+            "dp2": {
+                "path": "path",
+                "account": "acc"
+            }
+        },
+        {
+            "dp3": {
+                "path": "path",
+                "account": "acc"
+            }
+        },
+        {
+            "dp4": {
+                "path": "path",
+                "account": "acc"
+            }
+        }
+    ]
+}

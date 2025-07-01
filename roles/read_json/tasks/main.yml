@@ -1,0 +1,32 @@
+---
+- name: Copy file
+  copy:
+    src: files/data.json
+    dest: "/tmp/dp/data.json"
+  become: yes
+
+- name: Read json
+  slurp:
+    src: "/tmp/dp/data.json"
+  register: data_file
+  become: yes
+
+- name: Covert JSON
+  set_fact:
+    data: "{{ data_file['content'] | b64decode | from_json }}"
+  become: yes
+
+- name: Extract one dp
+  set_fact:
+    dp: "{{ data | community.general.json_query('resources[*].dp3') flatten }}"
+  become: yes
+
+- name: Display dp
+  debug:
+    var: dp
+  become: yes
+
+- name: Display dp path
+  debug:
+    var: "{{ dp | community.general.json_query('*.path') }}"
+  become: yes
