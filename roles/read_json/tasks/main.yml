@@ -42,5 +42,5 @@
 
 - name: Display dp path
   debug:
-    var: "{{ dp | community.general.json_query('*.path') }}"
+    var: "{{ dp | community.general.json_query('[*].path') }}"
   become: yes
