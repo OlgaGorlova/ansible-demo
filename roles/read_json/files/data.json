@@ -2,26 +2,26 @@
     "resources" : [
         {
             "dp1": {
-                "path": "path",
-                "account": "acc"
+                "path": "path1",
+                "account": "acc1"
             }
         },
         {
             "dp2": {
-                "path": "path",
-                "account": "acc"
+                "path": "path2",
+                "account": "acc2"
             }
         },
         {
             "dp3": {
-                "path": "path",
-                "account": "acc"
+                "path": "path3",
+                "account": "acc3"
             }
         },
         {
             "dp4": {
-                "path": "path",
-                "account": "acc"
+                "path": "path4",
+                "account": "acc4"
             }
         }
     ]

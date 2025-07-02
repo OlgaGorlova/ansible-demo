@@ -44,3 +44,12 @@
   debug:
     msg: "{{ dp[0].path }}"
   become: yes
+
+- name: Display dp details
+  shell: |
+    echo "{{ path }}"
+    echo "{{ account }}"
+  vars:
+    path: "{{ dp[0].path }}"
+    account: "{{ dp[0].account }}"
+  become: yes
