@@ -46,7 +46,7 @@
   become: yes
 
 - name: Display dp details
-  shell: |
+  ansible.builtin.shell: |
     echo "{{ path }}"
     echo "{{ account }}"
   vars:
