@@ -54,4 +54,6 @@
   ansible.builtin.shell: |
     echo "path: {{ path }}"
     echo "account: {{ account }}"
+  when:
+    - dp is defined
   become: yes
