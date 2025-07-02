@@ -45,11 +45,13 @@
     msg: "{{ dp[0].path }}"
   become: yes
 
+- name: Set dp vars
+  set_fact:
+    path: "{{ dp[0].path }}"
+    account: "{{ dp[0].account }}"
+
 - name: Display dp details
   ansible.builtin.shell: |
     echo "{{ path }}"
     echo "{{ account }}"
-  vars:
-    path: "{{ dp[0].path }}"
-    account: "{{ dp[0].account }}"
   become: yes
