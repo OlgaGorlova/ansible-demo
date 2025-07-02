@@ -50,6 +50,13 @@
     path: "{{ dp[0].path }}"
     account: "{{ dp[0].account }}"
 
+- name: Debug path and account
+  debug:
+    msg:
+      - "path = {{ path }}"
+      - "account = {{ account }}"
+
+
 - name: Display dp details
   ansible.builtin.shell: |
     echo "path: {{ path }}"
