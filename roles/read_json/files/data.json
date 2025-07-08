@@ -9,7 +9,6 @@
         },
         {
             "dp2": {
-                "skip_generic_flow": "yes",
                 "path": "path2",
                 "account": "acc2"
             }
