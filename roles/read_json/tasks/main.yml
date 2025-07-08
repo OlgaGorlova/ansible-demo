@@ -51,7 +51,7 @@
     loop_var: source
   when: not source.skip_generic_flow | default(false)
   vars:
-    dp: "{{ source }}"
+    dp: "{{ source | first }}"
 
 
 # - name: Display dp
