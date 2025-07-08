@@ -37,7 +37,7 @@
 
 - name: Load variables from JSON
   include_vars:
-    file: files/source.json
+    file: files/data.json
     name: sources
 
 - name: Run task file only for sources that are enabled
