@@ -49,7 +49,7 @@
   loop: "{{ sources | map('dict2items') | map('first') | list }}"
   loop_control:
     loop_var: source
-  when: source.skip_generic_flow == "no"
+  when: source.value.skip_generic_flow | default("no") == "no"
   vars:
     dp: "{{ source.value }}"
     dp_name: "{{ source.key }}"
