@@ -46,12 +46,13 @@
 
 - name: Run task file only for sources that are enabled
   include_tasks: tasks/01_flow.yml
-  loop: "{{ sources }}"
+  loop: "{{ sources | map('dict2items') | map('first') | list }}"
   loop_control:
     loop_var: source
   when: not source.skip_generic_flow | default(false)
   vars:
-    dp: "{{ source | first }}"
+    dp: "{{ source.value }}"
+    dp_name: "{{ source.key }}"
 
 
 # - name: Display dp
