@@ -40,6 +40,11 @@
     file: files/data.json
     name: sources
 
+- name: Display sources
+  debug:
+    var: sources
+  become: yes
+
 - name: Run task file only for sources that are enabled
   include_tasks: tasks/01_flow.yml
   loop: "{{ sources }}"
