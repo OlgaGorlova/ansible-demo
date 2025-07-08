@@ -30,10 +30,10 @@
     data: "{{ data_file['content'] | b64decode | from_json }}"
   become: yes
 
-- name: Extract one dp
-  set_fact:
-    dp: "{{ data.resources | selectattr('dp3', 'defined') | map(attribute='dp3') | list }}"
-  become: yes
+# - name: Extract one dp
+#   set_fact:
+#     dp: "{{ data.resources | selectattr('dp3', 'defined') | map(attribute='dp3') | list }}"
+#   become: yes
 
 - name: Load variables from JSON
   include_vars:
