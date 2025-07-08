@@ -3,40 +3,14 @@
     var: dp
   become: yes
 
-- name: Display dp path
+- name: Display dp name
   debug:
-    msg: "{{ dp.path }}"
+    msg: "{{ dp_name }}"
   become: yes
-
-- name: Set dp vars
-  set_fact:
-    path: "{{ dp.path }}"
-    account: "{{ dp.account }}"
 
 - name: Debug path and account
   debug:
     msg:
-      - "path = {{ path }}"
-      - "account = {{ account }}"
+      - "path = {{ dp.path }}"
+      - "account = {{ dp.account }}"
 
-
-- name: Display dp details
-  ansible.builtin.shell: |
-    echo "path: {{ path }}"
-    echo "account: {{ account }}"
-  when:
-    - dp is defined
-
-- name: Display dp details via shell
-  shell: |
-    echo "PATH={{ path }}"
-    echo "ACCOUNT={{ account }}"
-  register: dp_shell_output
-  vars:
-    path: "{{ dp.path }}"
-    account: "{{ dp.account }}"
-  become: yes
-
-- name: Show captured shell output
-  debug:
-    var: dp_shell_output.stdout_lines
