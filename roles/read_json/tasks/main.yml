@@ -38,7 +38,6 @@
 - name: Load variables from JSON
   include_vars:
     file: files/data.json
-    name: sources
 
 - name: Display sources
   debug:
