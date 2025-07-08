@@ -35,45 +35,60 @@
     dp: "{{ data.resources | selectattr('dp3', 'defined') | map(attribute='dp3') | list }}"
   become: yes
 
-- name: Display dp
-  debug:
-    var: dp
-  become: yes
+- name: Load variables from JSON
+  include_vars:
+    file: files/source.json
+    name: sources
 
-- name: Display dp path
-  debug:
-    msg: "{{ dp[0].path }}"
-  become: yes
-
-- name: Set dp vars
-  set_fact:
-    path: "{{ dp[0].path }}"
-    account: "{{ dp[0].account }}"
-
-- name: Debug path and account
-  debug:
-    msg:
-      - "path = {{ path }}"
-      - "account = {{ account }}"
-
-
-- name: Display dp details
-  ansible.builtin.shell: |
-    echo "path: {{ path }}"
-    echo "account: {{ account }}"
-  when:
-    - dp is defined
-
-- name: Display dp details via shell
-  shell: |
-    echo "PATH={{ path }}"
-    echo "ACCOUNT={{ account }}"
-  register: dp_shell_output
+- name: Run task file only for sources that are enabled
+  include_tasks: tasks/01_flow.yml
+  loop: "{{ sources }}"
+  loop_control:
+    loop_var: source
+  when: not source.skip_generic_flow | default(false)
   vars:
-    path: "{{ dp[0].path }}"
-    account: "{{ dp[0].account }}"
-  become: yes
+    dp: "{{ source }}"
 
-- name: Show captured shell output
-  debug:
-    var: dp_shell_output.stdout_lines
+
+# - name: Display dp
+#   debug:
+#     var: dp
+#   become: yes
+
+# - name: Display dp path
+#   debug:
+#     msg: "{{ dp[0].path }}"
+#   become: yes
+
+# - name: Set dp vars
+#   set_fact:
+#     path: "{{ dp[0].path }}"
+#     account: "{{ dp[0].account }}"
+
+# - name: Debug path and account
+#   debug:
+#     msg:
+#       - "path = {{ path }}"
+#       - "account = {{ account }}"
+
+
+# - name: Display dp details
+#   ansible.builtin.shell: |
+#     echo "path: {{ path }}"
+#     echo "account: {{ account }}"
+#   when:
+#     - dp is defined
+
+# - name: Display dp details via shell
+#   shell: |
+#     echo "PATH={{ path }}"
+#     echo "ACCOUNT={{ account }}"
+#   register: dp_shell_output
+#   vars:
+#     path: "{{ dp[0].path }}"
+#     account: "{{ dp[0].account }}"
+#   become: yes
+
+# - name: Show captured shell output
+#   debug:
+#     var: dp_shell_output.stdout_lines
