@@ -2,24 +2,28 @@
     "sources" : [
         {
             "dp1": {
+                "skip_generic_flow": "no",
                 "path": "path1",
                 "account": "acc1"
             }
         },
         {
             "dp2": {
+                "skip_generic_flow": "yes",
                 "path": "path2",
                 "account": "acc2"
             }
         },
         {
             "dp3": {
+                "skip_generic_flow": "no",
                 "path": "path3",
                 "account": "acc3"
             }
         },
         {
             "dp4": {
+                "skip_generic_flow": "no",
                 "path": "path4",
                 "account": "acc4"
             }
