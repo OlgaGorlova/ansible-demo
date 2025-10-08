@@ -14,3 +14,27 @@
       - "path = {{ dp.path }}"
       - "account = {{ dp.account }}"
 
+- name: Debug regex
+  debug:
+    msg:
+      - "path = {{ dp.path }}"
+      - "account = {{ dp.account }}"
+  vars:
+    filter: "{{ dp.filter | default('') | regex_escape }}"
+    hdfs_base: "{{ dp.path | regex_replace(filter ~ '$'', '') }}"
+    relative_path: "{{  }}"
+
+- name: Create ok file
+  command:
+    cmd: echo "Processing {{ dp_name }}" > "{{ dp_name }}_ok.txt"
+  register: process_result
+  failed_when: process_result.rc != 0
+
+- name: Check if ok file exists for {{ dp_name }}
+  stat:
+    path: "{{ dp_name }}_ok.txt"
+  register: file_check_result
+
+- name: Pass result back to main.yml
+  set_fact:
+    stat: "{{ file_check_result.stat }}"

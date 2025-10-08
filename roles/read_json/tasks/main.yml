@@ -12,6 +12,11 @@
 #     mode: "0775"
 #   become: yes
 
+- name: Prepare vars
+  set_fact:
+    success_list: []
+    failure_list: []
+  become: yes
 
 - name: Copy file
   copy:
@@ -45,14 +50,35 @@
   become: yes
 
 - name: Run task file only for sources that are enabled
-  include_tasks: tasks/01_flow.yml
-  loop: "{{ sources | map('dict2items') | map('first') | list }}"
-  loop_control:
+  block:
+    include_tasks: tasks/01_flow.yml
+    loop: "{{ sources | map('dict2items') | map('first') | list }}"
+    loop_control:
     loop_var: source
-  when: source.value.skip_generic_flow | default("yes") == "no"
+  when: source.value.skip_generic_flow | default("no") == "no"
   vars:
     dp: "{{ source.value }}"
     dp_name: "{{ source.key }}"
+  register: task_results
+
+- name: Update success_list
+  set_fact:
+    success_list: "{{ success_list + [item.item.name] }}"
+  with_items: "{{ task_results.results }}"
+  when: item.stat.exists
+
+- name: Update failure_list
+  set_fact:
+    failure_list: "{{ failure_list + [item.item.name] }}"
+  with_items: "{{ task_results.results }}"
+  when: not item.stat.exists
+
+- name: Print summary
+  debig:
+    msg: |
+      Summary:
+      Successful entries: {{ success_list }}
+      Failed entries: {{ failure_list }}
 
 
 # - name: Display dp
