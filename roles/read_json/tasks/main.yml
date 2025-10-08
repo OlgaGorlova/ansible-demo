@@ -73,7 +73,7 @@
   when: not item.stat.exists
 
 - name: Print summary
-  debig:
+  debug:
     msg: |
       Summary:
       Successful entries: {{ success_list }}
