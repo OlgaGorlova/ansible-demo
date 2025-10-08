@@ -50,10 +50,9 @@
   become: yes
 
 - name: Run task file only for sources that are enabled
-  block:
-    include_tasks: tasks/01_flow.yml
-    loop: "{{ sources | map('dict2items') | map('first') | list }}"
-    loop_control:
+  include_tasks: "tasks/01_flow.yml"
+  loop: "{{ sources | map('dict2items') | map('first') | list }}"
+  loop_control:
     loop_var: source
   when: source.value.skip_generic_flow | default("no") == "no"
   vars:
