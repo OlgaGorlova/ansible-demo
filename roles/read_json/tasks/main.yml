@@ -60,6 +60,10 @@
     dp_name: "{{ source.key }}"
   register: task_results
 
+- name: Debug task_results
+  debug:
+    msg: "task_results: {{ task_results }}"
+
 - name: Update success_list
   set_fact:
     success_list: "{{ success_list + [item.item.name] }}"
