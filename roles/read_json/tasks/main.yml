@@ -16,6 +16,7 @@
   set_fact:
     success_list: []
     failure_list: []
+    task_results: []
   become: yes
 
 - name: Copy file
@@ -58,7 +59,7 @@
   vars:
     dp: "{{ source.value }}"
     dp_name: "{{ source.key }}"
-  register: task_results
+  # register: task_results
 
 - name: Debug task_results
   debug:
