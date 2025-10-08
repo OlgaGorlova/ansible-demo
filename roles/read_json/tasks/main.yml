@@ -51,31 +51,45 @@
   become: yes
 
 - name: Run task file only for sources that are enabled
-  include_tasks: "tasks/01_flow.yml"
-  loop: "{{ sources | map('dict2items') | map('first') | list }}"
-  loop_control:
-    loop_var: source
-  when: source.value.skip_generic_flow | default("no") == "no"
-  vars:
-    dp: "{{ source.value }}"
-    dp_name: "{{ source.key }}"
-  # register: task_results
+  block:
+    - name: Run 01_flow
+      include_tasks: "tasks/01_flow.yml"
+      vars:
+        dp: "{{ source.value }}"
+        dp_name: "{{ source.key }}"
+      loop: "{{ sources | map('dict2items') | map('first') | list }}"
+      loop_control:
+          loop_var: source
 
-- name: Debug task_results
+    - name: Check if ok file exists for {{ dp_name }}
+      stat:
+        path: "{{ dp_name }}_ok.txt"
+      loop: "{{ sources | map('dict2items') | map('first') | list }}"
+      loop_control:
+          loop_var: source
+      register: file_check_result
+
+  when: source.value.skip_generic_flow | default("no") == "no"
+  # vars:
+  #   dp: "{{ source.value }}"
+  #   dp_name: "{{ source.key }}"
+    # register: task_results
+
+- name: Debug file_check_result
   debug:
-    msg: "task_results: {{ task_results }}"
+    msg: "file_check_result: {{ file_check_result }}"
 
 - name: Update success_list
   set_fact:
     success_list: "{{ success_list + [item.item.name] }}"
-  with_items: "{{ task_results.results }}"
-  when: item.stat.exists
+  with_items: "{{ file_check_result.results }}"
+  when: file_check_result.results[loop.index0].stat.exists
 
 - name: Update failure_list
   set_fact:
     failure_list: "{{ failure_list + [item.item.name] }}"
   with_items: "{{ task_results.results }}"
-  when: not item.stat.exists
+  when: not file_check_result.results[loop.index0].stat.exists
 
 - name: Print summary
   debug:
