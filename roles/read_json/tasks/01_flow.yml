@@ -42,3 +42,24 @@
 - name: Pass result back to main.yml
   set_fact:
     task_results: "{{ task_results + [file_check_result.stat] }}"
+
+- name: Parse exclude paths
+  set_fact:
+    exclude_paths_list: >-
+      {{
+        (dp.exclude_paths is defined and dp.exclude_paths | length > 0)
+        | ternary(dp.exclude_paths | split(';'), [])
+      }}
+- name: Ensure filter file exists and is empty
+  copy:
+    dest: /tmp/distcp_filter.txt
+    content: ""
+    mode: '0644'
+
+- name: Add exclude paths to the filter file 
+  lineinfile:
+    path: /tmp/distcp_filter.txt
+    line: "{{ item }}"
+    insertafter: EOF
+  loop: "{{ dp.exclude_paths }}"
+  when: dp.exclude_paths | lenght > 0

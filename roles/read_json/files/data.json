@@ -4,7 +4,8 @@
             "dp1": {
                 "skip_generic_flow": "no",
                 "path": "path1",
-                "account": "acc1"
+                "account": "acc1",
+                "exclude_paths": "folder1;folder2;folder3"
             }
         },
         {
