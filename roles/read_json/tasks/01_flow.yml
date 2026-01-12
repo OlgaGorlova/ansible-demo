@@ -63,4 +63,4 @@
     line: "{{ item }}"
     insertafter: EOF
   loop: "{{ exclude_paths_list }}"
-  when: exclude_paths_list | lenght > 0
+  when: exclude_paths_list | length > 0
