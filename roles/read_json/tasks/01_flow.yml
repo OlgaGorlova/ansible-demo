@@ -53,6 +53,10 @@
     content: ""
     mode: '0644'
 
+- name: Debug exclude_paths_list
+  debug:
+    msg: "exclude_paths_list: {{ exclude_paths_list }}"
+
 - name: Add exclude paths to the filter file 
   lineinfile:
     path: /tmp/distcp_filter.txt
