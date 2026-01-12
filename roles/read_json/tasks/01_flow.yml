@@ -49,7 +49,7 @@
 
 - name: Ensure filter file exists and is empty
   copy:
-    dest: /tmp/distcp_filter.txt
+    dest: /tmp/{{ dp_name }}_distcp_filter.txt
     content: ""
     mode: '0644'
 
@@ -59,7 +59,7 @@
 
 - name: Add exclude paths to the filter file 
   lineinfile:
-    path: /tmp/distcp_filter.txt
+    path: /tmp/{{ dp_name }}_distcp_filter.txt
     line: "{{ item }}"
     insertafter: EOF
   loop: "{{ exclude_paths_list }}"
