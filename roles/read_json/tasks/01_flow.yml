@@ -45,7 +45,7 @@
 
 - name: Parse exclude paths
   set_fact:
-    exclude_paths_list: "{{ dp.exclude_paths | from_json | split(';') }}"
+    exclude_paths_list: "{{ dp.exclude_paths | split(';') }}"
 
 - name: Ensure filter file exists and is empty
   copy:
