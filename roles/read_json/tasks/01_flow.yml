@@ -43,24 +43,47 @@
   set_fact:
     task_results: "{{ task_results + [file_check_result.stat] }}"
 
-- name: Parse exclude paths
-  set_fact:
-    exclude_paths_list: "{{ dp.exclude_paths | default('') | split(';') | reject('equalto', '') | list }}"
+# - name: Parse exclude paths
+#   set_fact:
+#     exclude_paths_list: "{{ dp.exclude_paths | default('') | split(';') | reject('equalto', '') | list }}"
+
+# - name: Ensure filter file exists and is empty
+#   copy:
+#     dest: /tmp/{{ dp_name }}_distcp_filter.txt
+#     content: ""
+#     mode: '0644'
+
+# - name: Debug exclude_paths_list
+#   debug:
+#     msg: "exclude_paths_list: {{ exclude_paths_list }}"
+
+# - name: Add exclude paths to the filter file 
+#   lineinfile:
+#     path: /tmp/{{ dp_name }}_distcp_filter.txt
+#     line: "{{ item }}"
+#     insertafter: EOF
+#   loop: "{{ exclude_paths_list }}"
+#   when: exclude_paths_list | length > 0
+
+# - name: Parse exclude paths
+#   set_fact:
+#     exclude_paths_list: "{{ dp.exclude_paths | default('') | split(';') | reject('equalto', '') | list }}"
 
 - name: Ensure filter file exists and is empty
   copy:
     dest: /tmp/{{ dp_name }}_distcp_filter.txt
-    content: ""
+    content: |
+      {% if dp.exclude_paths is defined and dp.exclude_paths | length > 0 %}
+      {% for path in (dp.exclude_paths | split(';')) %}
+      {{ path }}
+      {% endfor %}
+      {% endif %}
     mode: '0644'
 
-- name: Debug exclude_paths_list
-  debug:
-    msg: "exclude_paths_list: {{ exclude_paths_list }}"
-
-- name: Add exclude paths to the filter file 
-  lineinfile:
-    path: /tmp/{{ dp_name }}_distcp_filter.txt
-    line: "{{ item }}"
-    insertafter: EOF
-  loop: "{{ exclude_paths_list }}"
-  when: exclude_paths_list | length > 0
+# - name: Add exclude paths to the filter file 
+#   lineinfile:
+#     path: /tmp/{{ dp_name }}_distcp_filter.txt
+#     line: "{{ item }}"
+#     insertafter: EOF
+#   loop: "{{ exclude_paths_list }}"
+#   when: exclude_paths_list | length > 0
