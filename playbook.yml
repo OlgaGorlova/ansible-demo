@@ -26,3 +26,10 @@
   roles:
     - role: read_json
       tags: json
+
+- name: Run distcp
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: hadoop_distcp_test
+      tags: hadoop

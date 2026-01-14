@@ -1,0 +1,21 @@
+{
+    "sources": [
+        {
+            "source": "path1",
+            "account": "acc1",
+            "exclude_paths": "folder1;folder2;folder3"
+        },
+        {
+            "source": "path2",
+            "account": "acc2"
+        },
+        {
+            "source": "path3",
+            "account": "acc3"
+        },
+        {
+            "source": "path4",
+            "account": "acc4"
+        }
+    ]
+}

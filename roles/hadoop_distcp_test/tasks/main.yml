@@ -1,0 +1,87 @@
+---
+- name: Create dir /tmp/dp
+  file:
+    path: "/tmp/dp/"
+    state: directory
+    mode: "0775"
+  become: yes
+
+- name: Load variables from JSON
+  include_vars:
+    file: files/data.json
+
+- name: Display sources
+  debug:
+    var: sources
+  become: yes
+
+- name: Copy source path to text file
+  copy:
+    content: "{{ item.source }}"
+    dest: "/tmp/dp/{{ item.prefix }}.txt"
+  loop: "{{ sources }}"
+  loop_control:
+    index_var: item_index
+
+- name: Put file to hdfs
+  shell: |
+    docker exec hdfs1-namenode hdfs dfs -put -f /tmp/dp/{{ item.prefix }}.txt hdfs://tmp/{{ item.prefix }}.txt
+  loop: "{{ sources }}"
+  loop_control:
+    index_var: item_index
+
+# - name: Parse exclude paths
+#   set_fact:
+#     exclude_paths_list: "{{ dp.exclude_paths | default('') | split(';') | reject('equalto', '') | list }}"
+
+- name: Ensure filter file exists and is empty
+  copy:
+    dest: /tmp/{{ dp_name }}_distcp_filter.txt
+    content: ""
+    mode: '0644'
+
+# - name: Debug exclude_paths_list
+#   debug:
+#     msg: "exclude_paths_list: {{ exclude_paths_list }}"
+
+- name: Add exclude paths to the filter file 
+  lineinfile:
+    path: /tmp/{{ dp_name }}_distcp_filter.txt
+    line: "{{ item }}"
+    insertafter: EOF
+  loop: "{{ dp.exclude_paths | default('') | split(';') | reject('equalto', '') | list }}"
+  when: dp.exclude_paths | length > 0
+
+# - name: Parse exclude paths
+#   set_fact:
+#     exclude_paths_list: "{{ dp.exclude_paths | default('') | split(';') | reject('equalto', '') | list }}"
+
+# - name: Ensure filter file exists and is empty
+#   copy:
+#     dest: /tmp/{{ dp_name }}_distcp_filter.txt
+#     content: |
+#       {% if dp.exclude_paths is defined and dp.exclude_paths | length > 0 %}
+#       {% for path in (dp.exclude_paths | split(';')) %}
+#       {{ path }}
+#       {% endfor %}
+#       {% endif %}
+#     mode: '0644'
+
+# - name: Add exclude paths to the filter file 
+#   lineinfile:
+#     path: /tmp/{{ dp_name }}_distcp_filter.txt
+#     line: "{{ item }}"
+#     insertafter: EOF
+#   loop: "{{ exclude_paths_list }}"
+#   when: exclude_paths_list | length > 0
+
+- name: Run distcp via hdfs1-namenode
+  command: >
+    docker exec hdfs1-namenode
+    hadoop distcp
+    hdfs://hdfs1-nn:8020/data
+    hdfs://hdfs2-nn:8020/data
+  loop: "{{ sources }}"
+  loop_control:
+    index_var: item_index
+  become: yes
