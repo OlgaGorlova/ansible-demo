@@ -8,7 +8,7 @@
 - name: Create dir /tmp/dp
   file:
     path: "/tmp/dp/"
-    state: absent
+    state: directory
     mode: "0775"
   become: yes
 
