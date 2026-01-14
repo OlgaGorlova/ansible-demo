@@ -5,12 +5,12 @@
 #     state: absent
 #   become: yes
 
-# - name: Create dir /tmp/dp
-#   file:
-#     path: "/tmp/dp/"
-#     state: absent
-#     mode: "0775"
-#   become: yes
+- name: Create dir /tmp/dp
+  file:
+    path: "/tmp/dp/"
+    state: absent
+    mode: "0775"
+  become: yes
 
 - name: Prepare vars
   set_fact:
