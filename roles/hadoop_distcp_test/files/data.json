@@ -1,19 +1,23 @@
 {
     "sources": [
         {
+            "prefix": "dp1",
             "source": "path1",
             "account": "acc1",
             "exclude_paths": "folder1;folder2;folder3"
         },
         {
+            "prefix": "dp2",
             "source": "path2",
             "account": "acc2"
         },
         {
+            "prefix": "dp3",
             "source": "path3",
             "account": "acc3"
         },
         {
+            "prefix": "dp4",
             "source": "path4",
             "account": "acc4"
         }
