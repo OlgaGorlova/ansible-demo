@@ -4,6 +4,6 @@
   gather_facts: no
 
   tasks:
-    - name: Пингуем машину
+    - name: Пингуем машину 2
       ansible.builtin.ping:
 
